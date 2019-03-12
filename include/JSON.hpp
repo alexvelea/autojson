@@ -186,6 +186,8 @@ public:
 
     operator std::string() const;
 
+    std::string toString() const;
+
     // vector
 
     static JSON parseVector(const char *&content);
@@ -243,6 +245,9 @@ public:
     JSON& operator[](const std::string &key);
     JSON& operator[](const char *key);
 
+
+    const JSON& operator[](const std::string &key) const;
+    const JSON& operator[](const char *key) const;
 
     template<typename Type>
     operator std::map<std::string, Type>() const {

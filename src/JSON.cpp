@@ -425,6 +425,14 @@ JSON::operator std::string() const {
     }
 }
 
+std::string JSON::toString() const {
+    if (this->type == JSONType::STRING) {
+        return std::string(*(std::string*)(this->content));
+    } else {
+        return this->stringify();
+    }
+}
+
 void JSON::stringifyVector(StringifyPart part) const {
     this->checkType(JSONType::VECTOR);
 
@@ -583,6 +591,16 @@ JSON& JSON::operator[](const std::string& key) {
 }
 
 JSON& JSON::operator[](const char* key) {
+    return operator[](std::string(key));
+}
+
+const JSON& JSON::operator[](const std::string& key) const {
+    this->checkType(JSONType::OBJECT);
+    auto& m = *(std::map<std::string, JSON>*)(this->content);
+    return m[key];
+}
+
+const JSON& JSON::operator[](const char* key) const {
     return operator[](std::string(key));
 }
 
